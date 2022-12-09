@@ -1,0 +1,97 @@
+version: "3"
+
+services:
+
+#  database:
+#    image: postgres:alpine3.17
+#    restart: always
+#    env_file:
+#      - ./postgres_app/.env
+#    volumes:
+#      - ./postgres_app/:/docker-entrypoint-initdb.d/
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: EXTERNAL_SAME_HOST://:29092,INTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL_SAME_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL_SAME_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: yes
+    depends_on:
+      zookeeper:
+        condition: service_started
+
+
+  init-topics:
+    image: 'bitnami/kafka:latest'
+    command:
+      - bin/bash
+      - -c
+      - |
+        kafka-topics.sh --create --partitions 3 --topic events.taxonomy --bootstrap-server kafka:9092
+        kafka-topics.sh --create --partitions 3 --topic bets.state --bootstrap-server kafka:9092
+    depends_on:
+      kafka:
+        condition: service_started
+
+#  events_api_server:
+#    build: event_api_server
+#    depends_on:
+#      - kafka
+#    restart: always
+#    env_file:
+#      - ./event_api_server/.env
+#    ports:
+#      - 8767:8767
+#    volumes:
+#      - ./event_api_server:/app
+#
+#  crud_server:
+#    build: ./crud_server_app
+#    depends_on:
+#      - database
+#    restart: always
+#    env_file:
+#      - ./crud_server_app/.env
+#    ports:
+#      - "8765:8765"
+#    volumes:
+#      - ./crud_server_app:/app
+#
+#  event_writer_consumer:
+#    build: event_writer_consumer
+#    depends_on:
+#      - kafka
+#    restart: always
+#    env_file:
+#      - ./event_writer_consumer/.env
+#    volumes:
+#      - ./event_writer_consumer:/app
+
+#  bet_scorer_consumer:
+#    build: bet_scorer_consumer
+#    depends_on:
+#      - kafka
+#    restart: always
+#    volumes:
+#      - ./bet_scorer_consumer:/app
+
+#  bet_writer_consumer:
+#    build: bet_writer_consumer
+#    depends_on:
+#      - kafka
+#    restart: always
+#    volumes:
+#      - ./bet_writer_consumer:/app
