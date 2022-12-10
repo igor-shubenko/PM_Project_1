@@ -23,4 +23,4 @@ app.include_router(events_routers.events_router)
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host='0.0.0.0', port=8767, reload=True)
+    uvicorn.run('main:app', host='0.0.0.0', port=8767, workers=1, reload=True)

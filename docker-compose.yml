@@ -85,20 +85,22 @@ services:
       - kafka
       - init-topics
     restart: always
-    ports:
-      - "8764:8764"
     env_file:
       - ./event_writer_consumer/.env
     volumes:
       - ./event_writer_consumer:/app
 
-#  bet_scorer_consumer:
-#    build: bet_scorer_consumer
-#    depends_on:
-#      - kafka
-#    restart: always
-#    volumes:
-#      - ./bet_scorer_consumer:/app
+  bet_scorer_consumer:
+    build: bet_scorer_consumer
+    container_name: bet_scorer_consumer
+    depends_on:
+      - kafka
+      - init-topics
+    restart: always
+    env_file:
+      - ./bet_scorer_consumer/.env
+    volumes:
+      - ./bet_scorer_consumer:/app
 
 #  bet_writer_consumer:
 #    build: bet_writer_consumer

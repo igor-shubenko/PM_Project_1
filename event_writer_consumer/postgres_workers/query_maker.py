@@ -1,7 +1,5 @@
 from postgres_workers.main_worker import MainDatabaseWorker
 
-from fastapi import HTTPException
-
 
 class QueryMaker(MainDatabaseWorker):
     def __init__(self, connection_string: str = None,

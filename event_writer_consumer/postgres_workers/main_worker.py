@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 import psycopg
 
 
@@ -16,15 +15,12 @@ class MainDatabaseWorker:
     def _create_record(self, query: str, values: tuple) -> dict:
         try:
             self._execute_query(query, values)
-        except Exception:
-            raise HTTPException(status_code=500, detail="Record not created")
-        return {"Success": "Record created"}
+        except Exception as e:
+            print("Exception:", e)
 
     def _update_record(self, query: str) -> dict:
         try:
             self._execute_query(query)
-        except Exception:
-            raise HTTPException(status_code=500, detail="Update failed")
-        else:
-            return {"Success": "Record updated"}
+        except Exception as e:
+            print("Exception:", e)
 
