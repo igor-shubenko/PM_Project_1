@@ -16,14 +16,18 @@ CREATE TABLE IF NOT EXISTS Events (
     id serial PRIMARY KEY,
     type text,
     name text,
-    event_date int
+    event_date int,
+    score text,
+    state text
 );
 
 CREATE TABLE IF NOT EXISTS Bets (
     id serial PRIMARY KEY,
     date_created int,
     userId int REFERENCES users(id) ON DELETE CASCADE,
-    eventId int REFERENCES events(id) ON DELETE CASCADE
+    eventId int REFERENCES events(id) ON DELETE CASCADE,
+    market text,
+    state text
 );
 
 

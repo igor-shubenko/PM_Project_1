@@ -8692,17 +8692,17 @@ INSERT INTO users(name, last_name, time_created, balance, gender, age, city, bir
 	('Beth', 'Stewart', 1664809404, 55.99832723139718, 'female', 38, 'Kyiv', '01.01', NULL, '192.168.0.110'),
 	('Angie', 'Smith', 1664826725, 55.99832723139718, 'female', 38, 'Kyiv', '01.01', NULL, '192.168.0.110');
 
-INSERT INTO Events(type, name, event_date) VALUES
-    ('football', 'AVG-BVS', 1234654),
-    ('basketball', 'Kiev-Dnipro', 12464654),
-    ('hockey', 'Kalush-Borodyanka', 3575753),
-    ('boxing', 'Petro vs Dmitro', 4444444),
-    ('swimming', 'Ukrane championat', 5555555),
-    ('dangerous jumping', 'darwing winners', 6666666);
+INSERT INTO Events(type, name, event_date, score, state) VALUES
+    ('football', 'AVG-BVS', 1234654, '0-0', 'created'),
+    ('basketball', 'Kiev-Dnipro', 12464654, '0-0', 'created'),
+    ('hockey', 'Kalush-Borodyanka', 3575753, '0-0', 'created'),
+    ('boxing', 'Petro vs Dmitro', 4444444, '0-0', 'created'),
+    ('swimming', 'Ukrane championat', 5555555, '0-0', 'created'),
+    ('dangerous jumping', 'darwing winners', 6666666, '0-0', 'created');
 
-INSERT INTO Bets(userId, eventId, date_created) VALUES
-    (1, 2, 333333),
-    (2, 1, 4444),
-    (4, 5, 123435),
-    (123, 4, 432543),
-    (12, 3, 545445);
+INSERT INTO Bets(userId, eventId, date_created, market, state) VALUES
+    (1, 2, 333333, 'team_1', 'none'),
+    (2, 1, 4444, 'team_2', 'none'),
+    (4, 5, 123435, 'draw', 'none'),
+    (123, 4, 432543, 'team_2', 'none'),
+    (12, 3, 545445, 'team_1', 'none');
