@@ -2,6 +2,7 @@ from postgres_workers.main_worker import MainDatabaseWorker
 from psycopg_pool import ConnectionPool
 from fastapi import HTTPException
 
+
 class QueryMaker(MainDatabaseWorker):
     def __init__(self, pool: ConnectionPool = None,
                  table_name: str = None,
@@ -51,5 +52,3 @@ class QueryMaker(MainDatabaseWorker):
             raise HTTPException(status_code=400, detail={"Error": "Wrong identificator"})
 
         return await self._delete_record(query)
-
-

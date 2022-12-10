@@ -17,7 +17,7 @@ class EventDataValidator(BaseModel):
 
     @validator('state')
     def event_state_validator(cls, obj):
-        if obj not in ['created', 'active', 'finished']:
+        if obj != 'created':
             raise ValueError("wrong event state")
         return obj
 
@@ -28,3 +28,9 @@ class EventUpdateDataValidator(EventDataValidator):
     event_date: Optional[int]
     score: Optional[str]
     state: Optional[str]
+
+    @validator('state')
+    def event_state_validator(cls, obj):
+        if obj not in ['active', 'finished']:
+            raise ValueError("wrong event state")
+        return obj

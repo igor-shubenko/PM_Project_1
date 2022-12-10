@@ -6,7 +6,8 @@ from postgres_workers.events_worker import KafkaEventsDataWorker
 
 consumer = KafkaConsumer('events.taxonomy',
                          bootstrap_servers=['kafka:9092'],
-                         client_id='event_writer_consumer')
+                         client_id='event_writer_consumer',
+                         group_id='event_consumer')
 
 connection_string = os.environ.get("DATABASE_LINK")
 

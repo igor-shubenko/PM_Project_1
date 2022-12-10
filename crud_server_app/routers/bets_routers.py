@@ -12,7 +12,7 @@ async def read_bet_record(request: Request, idn: str, ) -> list:
 
 @bets_router.post("/bet/add")
 async def create_bet_record(request: Request, data: BetDataValidator = Body()) -> dict:
-    return await request.app.bet_data_worker.create_record(data.dict())
+    return await request.app.bet_data_worker.create_record_if_possible(data.dict(), request.app)
 
 
 @bets_router.put("/bet/change/{idn}")

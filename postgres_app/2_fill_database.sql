@@ -8701,8 +8701,8 @@ INSERT INTO Events(type, name, event_date, score, state) VALUES
     ('dangerous jumping', 'darwing winners', 6666666, '0-0', 'created');
 
 INSERT INTO Bets(userId, eventId, date_created, market, state) VALUES
-    (1, 2, 333333, 'team_1', 'none'),
-    (2, 1, 4444, 'team_2', 'none'),
-    (4, 5, 123435, 'draw', 'none'),
-    (123, 4, 432543, 'team_2', 'none'),
-    (12, 3, 545445, 'team_1', 'none');
+    (1, 2, 333333, 'team_1', 'None'),
+    (2, 1, 4444, 'team_2', 'None'),
+    (4, 5, 123435, 'draw', 'None'),
+    (123, 4, 432543, 'team_2', 'None'),
+    (12, 3, 545445, 'team_1', 'None');
