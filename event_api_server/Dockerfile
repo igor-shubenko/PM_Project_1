@@ -16,7 +16,7 @@ COPY . .
 RUN adduser --disabled-password events_api_server_user
 USER events_api_server_user
 
-EXPOSE 8777/tcp
+EXPOSE 8767/tcp
 
 ENV DATABASE_LINK=$DATABASE_LINK
 

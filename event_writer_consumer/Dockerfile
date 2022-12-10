@@ -16,6 +16,8 @@ COPY . .
 RUN adduser --disabled-password consumer_user
 USER consumer_user
 
+EXPOSE 8764/tcp
+
 ENV DATABASE_LINK=$DATABASE_LINK
 
 ENTRYPOINT ["python", "main.py"]

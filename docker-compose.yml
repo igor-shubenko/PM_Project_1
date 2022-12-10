@@ -30,8 +30,7 @@ services:
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
       ALLOW_PLAINTEXT_LISTENER: yes
     depends_on:
-      zookeeper:
-        condition: service_started
+      - zookeeper
 
 
   init-topics:
@@ -43,13 +42,19 @@ services:
         kafka-topics.sh --create --partitions 3 --topic events.taxonomy --bootstrap-server kafka:9092
         kafka-topics.sh --create --partitions 3 --topic bets.state --bootstrap-server kafka:9092
     depends_on:
-      kafka:
-        condition: service_started
+      - kafka
+
 
   events_api_server:
     build: event_api_server
+    container_name: events_api_server
     depends_on:
-      - kafka
+      kafka:
+        condition: service_started
+      database:
+        condition: service_started
+      init-topics:
+        condition: service_completed_successfully
     restart: always
     env_file:
       - ./event_api_server/.env
@@ -60,8 +65,11 @@ services:
 
   crud_server:
     build: ./crud_server_app
+    container_name: crud_server
     depends_on:
       - database
+      - kafka
+      - init-topics
     restart: always
     env_file:
       - ./crud_server_app/.env
@@ -72,9 +80,13 @@ services:
 
   event_writer_consumer:
     build: event_writer_consumer
+    container_name: event_writer_consumer
     depends_on:
       - kafka
+      - init-topics
     restart: always
+    ports:
+      - "8764:8764"
     env_file:
       - ./event_writer_consumer/.env
     volumes:

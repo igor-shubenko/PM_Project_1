@@ -1,4 +1,5 @@
 from kafka import KafkaProducer
+from json import dumps
 
 
 class EventProducer:
@@ -6,6 +7,11 @@ class EventProducer:
         self._producer = KafkaProducer(bootstrap_servers=['kafka:9092'],
                                        client_id='event_kafka_producer')
 
-    def send(self, value):
-        response = self._producer.send('events.taxonomy', value=value.encode('utf-8'))
+    def send(self, value: str | dict, idn: int = None):
+        if idn:
+            value['id'] = idn
+            value = dumps(value)
+            response = self._producer.send('events.taxonomy', value=value.encode('utf-8'))
+        else:
+            response = self._producer.send('events.taxonomy', value=value.encode('utf-8'))
         return response.get(timeout=10)

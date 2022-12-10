@@ -13,12 +13,11 @@ async def read_event_record(request: Request, idn: str) -> list:
 @events_router.post('/event/add')
 async def create_event_record(request: Request, data: EventDataValidator = Body()) -> dict:
     return request.app.producer.send(data.json())
-    # return await request.app.event_data_worker.create_record(data.dict())
 
 
 @events_router.put('/event/change/{idn}')
 async def update_event_record(request: Request, idn: int = Path(gt=0), data: EventUpdateDataValidator = Body()) -> dict:
-    return await request.app.event_data_worker.update_record(idn, data.dict())
+    return request.app.producer.send(data.dict(), idn)
 
 
 @events_router.delete('/event/delete/{idn}')
