@@ -10,11 +10,6 @@ app = FastAPI(title='EventApiServer',
               version="1.0")
 
 
-@app.get('/test')
-async def test():
-    return "test passed"
-
-
 app.add_event_handler('startup', startup_event_handler(app))
 app.add_event_handler('shutdown', shutdown_event_handler(app))
 

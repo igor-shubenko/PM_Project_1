@@ -27,7 +27,7 @@ class BetUpdater:
         if bets:
             event_winner = self._get_event_winner(event_info)
             for bet in bets:
-                if self._bet_state_check(bet['market'], event_winner):
+                if self._bet_market_success(bet['market'], event_winner):
                     bet['state'] = 'winning'
                 else:
                     bet['state'] = 'losing'
@@ -39,7 +39,7 @@ class BetUpdater:
         if bets:
             event_winner = self._get_event_winner(event_info)
             for bet in bets:
-                if self._bet_state_check(bet['market'], event_winner):
+                if self._bet_market_success(bet['market'], event_winner):
                     bet['state'] = 'win'
                 else:
                     bet['state'] = 'lose'
@@ -56,7 +56,7 @@ class BetUpdater:
             return 2
 
     @staticmethod
-    def _bet_state_check(bet_market: str, winner: int) -> bool:
+    def _bet_market_success(bet_market: str, winner: int) -> bool:
         if bet_market == 'team_1':
             market = 1
         elif bet_market == 'team_2':

@@ -38,6 +38,6 @@ class EventUpdateDataValidator(EventDataValidator):
 
     @validator('state')
     def event_state_validator(cls, obj):
-        if obj not in ['active', 'finished']:
+        if obj not in ['created', 'active', 'finished']:
             raise ValueError("wrong event state")
         return obj
