@@ -2,6 +2,7 @@ import psycopg
 
 
 class MainDatabaseWorker:
+    """Class implements methods for executing queries, prepared by child class"""
     def __init__(self, connection_string: str):
         self._connection_string = connection_string
 
@@ -13,6 +14,7 @@ class MainDatabaseWorker:
                 conn.commit()
 
     def _update_record(self, query: str) -> dict:
+        """Make update query to database"""
         try:
             self._execute_query(query)
         except Exception as e:

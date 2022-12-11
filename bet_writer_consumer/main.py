@@ -1,3 +1,5 @@
+"""Kafka-consumer, that reads messages from bets.state topic and
+    pushes them to data-writer for further updating records in database"""
 import os
 
 from kafka import KafkaConsumer

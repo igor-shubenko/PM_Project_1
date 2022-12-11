@@ -4,4 +4,3 @@ uvicorn==0.20.0
 psycopg==3.1.4
 psycopg_pool==3.1.4
 pydantic==1.10.2
-

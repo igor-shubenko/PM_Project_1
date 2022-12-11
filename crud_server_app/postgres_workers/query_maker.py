@@ -4,6 +4,9 @@ from fastapi import HTTPException
 
 
 class QueryMaker(MainDatabaseWorker):
+    """Class prepare queries for different tables of database according to a template.
+        Takes a table name and names of table cols and connection_string
+        for connection to database"""
     def __init__(self, pool: ConnectionPool = None,
                  table_name: str = None,
                  cols_names: tuple = None):
@@ -13,12 +16,14 @@ class QueryMaker(MainDatabaseWorker):
         self._cols_amount = len(cols_names)
 
     async def create_record(self, data: dict) -> dict:
+        """Prepare create query and transfer it for further execution"""
         query = f"INSERT INTO {self._table_name}({self._cols_names}) VALUES" \
                 f"({', '.join(['%s']*self._cols_amount)});"
         values = tuple(data.values())
         return await self._create_record(query, values)
 
     async def read_record(self, idn: str) -> list | dict:
+        """Prepare read query and transfer it for further execution"""
         if idn == 'all':
             query = f'SELECT * FROM {self._table_name} ORDER BY id;'
         elif idn.isdigit():
@@ -29,6 +34,7 @@ class QueryMaker(MainDatabaseWorker):
         return await self._read_record(query)
 
     async def update_record(self, idn: int, data: dict) -> dict:
+        """Prepare update query and transfer it for further execution"""
         data = {k: v for k, v in data.items() if v is not None}
         query_start = f"UPDATE {self._table_name} SET "
         temp_strings = []
@@ -43,7 +49,8 @@ class QueryMaker(MainDatabaseWorker):
 
         return await self._update_record(query)
 
-    async def delete_record(self, idn: str):
+    async def delete_record(self, idn: str) -> dict:
+        """Prepare delete query and transfer it for further execution"""
         if idn == 'all':
             query = f'TRUNCATE {self._table_name} CASCADE;'
         elif idn.isdigit():

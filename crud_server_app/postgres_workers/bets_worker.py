@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 
 class BetsDataWorker(QueryMaker):
+    """Class contains table name and table cols for initialisation of parent class."""
     def __init__(self, pool: AsyncConnectionPool = None,
                  table_name='Bets',
                  cols_names=('date_created',
@@ -15,6 +16,7 @@ class BetsDataWorker(QueryMaker):
         super().__init__(pool=pool, table_name=table_name, cols_names=cols_names)
 
     async def create_record_if_possible(self, data: dict, app: FastAPI) -> dict:
+        """Checks event status, and if it 'created', sends bet information for adding to database"""
         event_id = data['eventId']
         event_info = await asyncio.create_task(app.event_data_worker.read_record(str(event_id)))
         if event_info[0]['state'] == 'created':

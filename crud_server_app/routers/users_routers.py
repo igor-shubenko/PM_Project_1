@@ -1,3 +1,4 @@
+"""Endpoints for users CRUD operations"""
 from fastapi import APIRouter, Body, Path, Request
 
 from validation_classes.users_validator import UserDataValidator, UserUpdateDataValidator

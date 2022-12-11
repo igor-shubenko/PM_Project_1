@@ -4,6 +4,7 @@ from postgres_workers.query_maker import QueryMaker
 
 
 class KafkaEventsDataWorker(QueryMaker):
+    """Class contains table name and table cols for initialisation of parent class."""
     def __init__(self, connection_string: str = None,
                  table_name='Events',
                  cols_names=('type',
@@ -15,6 +16,8 @@ class KafkaEventsDataWorker(QueryMaker):
                          table_name=table_name, cols_names=cols_names)
 
     def write_or_update_data(self, message):
+        """Checks if 'id' in event info (if True - update record, False - create record) and
+            calls corresponding method"""
         values = loads(message.value.decode('utf-8'))
         if 'id' in values:
             idn = values.pop('id')

@@ -3,6 +3,7 @@ from typing import Optional
 
 
 class UserDataValidator(BaseModel):
+    """Validates user info before creating"""
     name: str
     age: Optional[int]
     time_created: int
@@ -28,5 +29,6 @@ class UserDataValidator(BaseModel):
 
 
 class UserUpdateDataValidator(UserDataValidator):
+    """Validates user info before updating"""
     name: Optional[str]
     time_created: Optional[int]

@@ -4,6 +4,9 @@ from postgres_workers.main_worker import MainDatabaseWorker
 
 
 class QueryMaker(MainDatabaseWorker):
+    """Class prepare queries for different tables of database according to a template.
+            Takes a table name and names of table cols and connection_string
+            for connection to database"""
     def __init__(self, connection_string: str = None,
                  table_name: str = None,
                  cols_names: tuple = None):
@@ -13,8 +16,9 @@ class QueryMaker(MainDatabaseWorker):
         self._cols_amount = len(cols_names)
 
     def update_record(self, data) -> None:
+        """Prepare update query and transfer it for further execution"""
         data = loads(data.value.decode('utf-8'))    # dict after this operation
-        idn = data.pop('id')
+        idn = data.pop('id')                        # taking id of record in database
         data = {k: v for k, v in data.items() if v is not None}
         query_start = f"UPDATE {self._table_name} SET "
         temp_strings = []

@@ -1,3 +1,4 @@
+"""Server provides users and bets CRUD operations"""
 import uvicorn
 from fastapi import FastAPI
 

@@ -1,3 +1,5 @@
+"""Server provides event CRUD operations"""
+
 import uvicorn
 from fastapi import FastAPI
 

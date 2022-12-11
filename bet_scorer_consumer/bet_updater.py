@@ -8,11 +8,17 @@ connection_string = os.environ.get("DATABASE_LINK")
 
 
 class BetUpdater:
+    """Class provides functional for updating bets state in database.
+        It receives event information from kafka-consumer,
+        reads all bets of the event from database and
+        change bets state to actual"""
     def __init__(self):
         self._database_worker = BetsDataWorker(connection_string=connection_string)
         self._kafka_producer = BetProducer()
 
     def update_bet(self, message) -> None:
+        """Define, to what status change bet state,
+            according to event state"""
         event_info = loads(message.value.decode('utf-8'))
         if event_info['state'] == 'active':
             self._change_bet_active(event_info)
@@ -22,6 +28,7 @@ class BetUpdater:
             pass
 
     def _change_bet_active(self, event_info: dict) -> None:
+        """Changes bet state of active event"""
         event_id = event_info['id']
         bets = self._database_worker.read_record(str(event_id))
         if bets:
@@ -34,6 +41,7 @@ class BetUpdater:
                 self._kafka_producer.send(bet)
 
     def _change_bet_finished(self, event_info: dict) -> None:
+        """Changes bet state of finished event"""
         event_id = event_info['id']
         bets = self._database_worker.read_record(str(event_id))
         if bets:
@@ -47,6 +55,10 @@ class BetUpdater:
 
     @staticmethod
     def _get_event_winner(event_info: dict) -> int:
+        """Converting str score to logic value(int)
+            if team_1 leading returns 1,
+            if team_2 leading returns 2,
+            if score is draw returns 0"""
         game_scores = list(map(int, event_info['score'].split('-')))
         if game_scores[0] == game_scores[1]:
             return 0
@@ -57,6 +69,7 @@ class BetUpdater:
 
     @staticmethod
     def _bet_market_success(bet_market: str, winner: int) -> bool:
+        """Define if bet won or loose"""
         if bet_market == 'team_1':
             market = 1
         elif bet_market == 'team_2':

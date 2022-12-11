@@ -3,6 +3,7 @@ from psycopg_pool import AsyncConnectionPool
 
 
 class UserDataWorker(QueryMaker):
+    """Class contains table name and table cols for initialisation of parent class."""
     def __init__(self, pool: AsyncConnectionPool = None,
                  table_name='Users',
                  cols_names=('name',

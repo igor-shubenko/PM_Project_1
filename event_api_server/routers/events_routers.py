@@ -1,3 +1,5 @@
+"""Endpoints for event CRUD operations"""
+
 from fastapi import APIRouter, Body, Path, Request
 
 from validation_classes.events_validator import EventDataValidator, EventUpdateDataValidator

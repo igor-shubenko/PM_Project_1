@@ -2,6 +2,7 @@ from psycopg.rows import dict_row
 from psycopg_pool import ConnectionPool
 from fastapi import HTTPException
 
+
 class MainDatabaseWorker:
     def __init__(self, pool: ConnectionPool = None):
         self._pool = pool
@@ -13,6 +14,7 @@ class MainDatabaseWorker:
             return await conn.execute(query, values)
 
     async def _create_record(self, query: str, values: tuple) -> dict:
+        """Makes create query to database"""
         try:
             await self._execute_query(query, values)
         except Exception:
@@ -20,6 +22,7 @@ class MainDatabaseWorker:
         return {"Success": "Record created"}
 
     async def _read_record(self, query: str) -> list | dict:
+        """Makes read query to database"""
         try:
             result = await self._execute_query(query)
         except Exception:
@@ -28,6 +31,7 @@ class MainDatabaseWorker:
             return await result.fetchall()
 
     async def _update_record(self, query: str) -> dict:
+        """Makes update query to database"""
         try:
             await self._execute_query(query)
         except Exception:
@@ -36,6 +40,7 @@ class MainDatabaseWorker:
             return {"Success": "Record updated"}
 
     async def _delete_record(self, query: str) -> dict:
+        """Makes delete query to database"""
         try:
             await self._execute_query(query)
         except Exception:

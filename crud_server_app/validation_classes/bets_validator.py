@@ -3,6 +3,7 @@ from typing import Optional
 
 
 class BetDataValidator(BaseModel):
+    """Validates bet info before creating bet"""
     date_created: int
     userId: int
     eventId: int
@@ -34,6 +35,7 @@ class BetDataValidator(BaseModel):
 
 
 class BetUpdateDataValidator(BetDataValidator):
+    """Validates bet info before updating"""
     date_created: Optional[int]
     userId: Optional[int]
     eventId: Optional[int]

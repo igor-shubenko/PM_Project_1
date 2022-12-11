@@ -3,6 +3,7 @@ from typing import Optional
 
 
 class EventDataValidator(BaseModel):
+    """Validates event info before create"""
     type: str
     name: str
     event_date: int
@@ -30,6 +31,7 @@ class EventDataValidator(BaseModel):
 
 
 class EventUpdateDataValidator(EventDataValidator):
+    """Validates info before update"""
     type: Optional[str]
     name: Optional[str]
     event_date: Optional[int]

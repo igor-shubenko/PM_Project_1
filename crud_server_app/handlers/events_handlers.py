@@ -15,8 +15,8 @@ def startup_event_handler(app: FastAPI):
     async def wrapper():
         app.user_data_worker = UserDataWorker(pool=pool)
         app.bet_data_worker = BetsDataWorker(pool=pool)
-        app.event_data_worker = EventsDataWorker(pool=pool)
-        await pool.open(wait=True)
+        app.event_data_worker = EventsDataWorker(pool=pool)     # leave it here, because it required for checking event
+        await pool.open(wait=True)                              # status, before creating bet
     return wrapper
 
 

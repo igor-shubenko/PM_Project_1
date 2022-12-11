@@ -1,3 +1,4 @@
+"""Endpoints for bets CRUD operations"""
 from fastapi import APIRouter, Body, Path, Request
 
 from validation_classes.bets_validator import BetDataValidator, BetUpdateDataValidator

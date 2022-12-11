@@ -1,15 +1,14 @@
+"""Kafka-consumer, that reads messages from events.taxonomy topic and
+    pushes them to bet-updator for updating bets state"""
 from kafka import KafkaConsumer
 import uvicorn
 
-
 from bet_updater import BetUpdater
-
 
 consumer = KafkaConsumer('events.taxonomy',
                          bootstrap_servers=['kafka:9092'],
                          client_id='bet_scorer_consumer',
                          group_id='bet_scorer_consumer')
-
 
 bet_updater = BetUpdater()
 
